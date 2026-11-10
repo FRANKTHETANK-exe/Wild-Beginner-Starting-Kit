@@ -1,0 +1,124 @@
+{
+  "format": 1,
+  "client": "World of Warcraft Forever",
+  "interface": 16001,
+  "addons": [
+    {
+      "id": "bagpad",
+      "version": "BagPad-1.4.0",
+      "source": "https://www.curseforge.com/wow/addons/bagpad-forever/files/9522659",
+      "url": "https://edge.forgecdn.net/files/9522/659/BagPad-1.4.0.zip",
+      "sha256": "11cf7aa4a16a8c2efc05d26c1758e8fe14ada5819c11c853800884de0920dcfb",
+      "folders": [
+        "BagPad"
+      ],
+      "license": "MIT",
+      "author": "Chris / TheFerdinandGamer",
+      "required": true
+    },
+    {
+      "id": "geared",
+      "version": "GearedForever_1.0.1",
+      "source": "https://www.curseforge.com/wow/addons/gearedforever/files/9521100",
+      "url": "https://edge.forgecdn.net/files/9521/100/GearedForever_1.0.1.zip",
+      "sha256": "3d7aff0e2db4cd02aee902adc989f8a60d9f9090bf97480289f270f2a2530a35",
+      "folders": [
+        "GearedForever"
+      ],
+      "license": "GPL-3.0",
+      "author": "Nathan / fistedwaffles05",
+      "required": true
+    },
+    {
+      "id": "needroll",
+      "version": "NeedRoll-v1.4.1-forever",
+      "source": "https://www.curseforge.com/wow/addons/needroll/files/9530991",
+      "url": "https://edge.forgecdn.net/files/9530/991/NeedRoll-v1.4.1-forever.zip",
+      "sha256": "828c8ec526f0af17f52102660a7363690ed573cf382beb09ad4951b327047f26",
+      "folders": [
+        "NeedRoll"
+      ],
+      "license": "GPL-3.0",
+      "author": "mikebvs / flowmotion_x",
+      "required": true
+    },
+    {
+      "id": "questie",
+      "version": "Questie-v12.6.4",
+      "source": "https://www.curseforge.com/wow/addons/questie/files/9502146",
+      "url": "https://edge.forgecdn.net/files/9502/146/Questie-v12.6.4.zip",
+      "sha256": "33cccb633e43ea8d6703c09e991d8ca51fe5641e9291f0b6b6cc3919d5dd95fa",
+      "folders": [
+        "Questie"
+      ],
+      "license": "See upstream license",
+      "author": "Questie contributors",
+      "required": true
+    },
+    {
+      "id": "questiedb",
+      "version": "QuestieDB-1.0.13-Forever",
+      "source": "https://www.curseforge.com/wow/addons/questiedb/files/9514215",
+      "url": "https://edge.forgecdn.net/files/9514/215/QuestieDB-1.0.13-Forever.zip",
+      "sha256": "f07c6cb18a723c8fba824038ffaaf5de23ab5c8ecd1d9235b122f06a59666f0c",
+      "folders": [
+        "QuestieDB"
+      ],
+      "license": "See upstream license",
+      "author": "QuestieDB contributors",
+      "required": true
+    },
+    {
+      "id": "questie-gamepad",
+      "version": "QuestieForeverGamepad-0.2.93",
+      "source": "https://www.curseforge.com/wow/addons/questie-forever-gamepad/files/9526337",
+      "url": "https://edge.forgecdn.net/files/9526/337/QuestieForeverGamepad-0.2.93.zip",
+      "sha256": "6e7479e1cecaea03eb8b37182d78f89e2c8c08dd256ad1d6a9a4de75bc71c6ba",
+      "folders": [
+        "QuestieForeverGamepad"
+      ],
+      "license": "GPL-3.0-only",
+      "author": "Tombons97 and contributors",
+      "required": true
+    },
+    {
+      "id": "platynator",
+      "version": "Platynator-542",
+      "source": "https://www.curseforge.com/wow/addons/platynator/files/9516030",
+      "url": "https://edge.forgecdn.net/files/9516/30/Platynator-542.zip",
+      "sha256": "dd6b69426dbb9a7412a2621044701aeaa87ea80ef289be892851b65f90f136b9",
+      "folders": [
+        "Platynator"
+      ],
+      "license": "All Rights Reserved",
+      "author": "plusmouse",
+      "required": false
+    },
+    {
+      "id": "ImprovedForever",
+      "version": "ImprovedForever-0.16.0",
+      "source": "https://github.com/markgravity/ImprovedForever/releases/tag/Core-v0.16.0",
+      "url": "https://github.com/markgravity/ImprovedForever/releases/download/Core-v0.16.0/ImprovedForever-0.16.0.zip",
+      "sha256": "b2344b80f91cc2554358bdd74cf9934d0fdf29dd4a21b39d387ab53ac51506e4",
+      "folders": [
+        "ImprovedForever"
+      ],
+      "license": "MIT",
+      "author": "markg / markgravity",
+      "required": true
+    },
+    {
+      "id": "ImprovedForever_Auction",
+      "version": "ImprovedForever_Auction-0.9.0",
+      "source": "https://github.com/markgravity/ImprovedForever/releases/tag/Auction-v0.9.0",
+      "url": "https://github.com/markgravity/ImprovedForever/releases/download/Auction-v0.9.0/ImprovedForever_Auction-0.9.0.zip",
+      "sha256": "9650d9b27dfc0b42f395f4e861ed25d14e16b0b0967fb542b1556b0dd88fa665",
+      "folders": [
+        "ImprovedForever_Auction"
+      ],
+      "license": "MIT",
+      "author": "markg / markgravity",
+      "required": true
+    }
+  ]
+}
