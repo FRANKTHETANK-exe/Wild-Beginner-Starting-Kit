@@ -2,8 +2,10 @@
 ## Title: NightPro | Wild Beginner Starting Kit
 ## Notes: One controller menu for bags, gear, quests, dungeons and auctions.
 ## Author: NightPro
-## Version: 1.2.1
+## Version: 1.3.0
 ## X-License: GPL-3.0-only
 ## OptionalDeps: Blizzard_Gamepad, BagPad, GearedForever, QuestieForeverGamepad, Questie, QuestieDB, NeedRoll, ImprovedForever, ImprovedForever_Auction, Platynator
+## SavedVariables: NightProKitDiagnostics
 NightProController.lua
 NightProTheme.lua
+NightProWorkbench.lua

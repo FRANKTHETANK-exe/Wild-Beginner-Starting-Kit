@@ -1,6 +1,6 @@
 # Credits
 
-This kit would not exist without the people who built the addons below. NightPro is the shared menu, display branding, packaging and navigation adapter. It is not a replacement author credit for their work.
+This kit would not exist without the people who built the addons below. NightPro is the shared pages, display branding, packaging and navigation adapter. It is not a replacement author credit for their work.
 
 | Project | Original authors | What the kit uses | License |
 | --- | --- | --- | --- |
@@ -21,9 +21,9 @@ Auctionator (plusmouse and Borjamacare) and Syndicator (plusmouse) were part of 
 
 ## What changed
 
-NightPro's companion addon adds a single launcher with tool descriptions, missing-addon status, first steps and credits. It adds directional focus, button activation, scrolling and back navigation to supported gear and dungeon windows. It provides a visual shortcut over an unused slot on the native wheel, without replacing the wheel's data.
+NightPro's companion addon adds shared Gear, Quests, Dungeons & Loot and saved Auction pages, plus a single launcher with tool descriptions, missing-addon status, first steps and credits. It adds directional focus, button activation, scrolling and back navigation to supported gear and dungeon windows. It provides a visual shortcut over an unused slot on the native wheel, without replacing the wheel's data.
 
-The companion applies NightPro display names and gold borders to supported addon windows at runtime. Upstream files, identifiers, saved variables and original license notices remain intact. Disabling the companion removes those display changes after a reload.
+The companion applies NightPro display names and gold borders to supported addon windows at runtime. Upstream identifiers, saved variables and original license notices remain intact. Version 1.3 appends a marked data-export bridge to the verified GearedForever Core.lua and NeedRoll API.lua files, keeping byte-for-byte backups first. The installer never replaces their implementation or data with a NightPro copy. Disabling the companion removes those display changes after a reload.
 
 Native bag controls come from BagPad. Quest controller controls come from Questie Forever Gamepad. Auction controller controls come from Improved Forever Auction. Those are not new features authored by NightPro.
 

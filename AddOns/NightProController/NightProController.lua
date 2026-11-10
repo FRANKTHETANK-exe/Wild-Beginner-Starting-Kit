@@ -50,10 +50,10 @@ local credits='BagPad: Chris / TheFerdinandGamer (MIT).\n\nImproved Forever and 
 local choices={
  {'NightPro Bag Settings','BagPad','Open the bag layout and controller options.\n\nTo open your inventory, choose Bags on the native controller wheel. Use its item prompts to equip, move or destroy items.',function()slash('BAGPAD')end},
  {'NightPro Bank','BagPad','Browse bank contents saved on your last visit.\n\nVisit a banker to deposit or withdraw items. This does not provide remote bank access.',function()slash('BAGPAD','bank')end},
- {'NightPro Gear','GearedForever','Look up gear by class, spec and level.\n\nD-pad selects a control. A activates it. X uses an alternate click where the tool supports one. LB / RB scroll.',function()slash('GEAREDFOREVER')end},
- {'NightPro Quests','QuestieForeverGamepad','Quest maps, tracking and controller settings.\n\nYour current tracker stays the way you set it. This opens its controller options.',function()slash('QUESTIEFOREVERGAMEPAD','settings')end},
- {'NightPro Dungeons & Loot','NeedRoll','Find dungeons, bosses, drops and dungeon quests.\n\nUse D-pad and A to browse. LB / RB scroll the focused list. B closes the window.',function()slash('NEEDROLL')end},
- {'NightPro Auctions','ImprovedForever_Auction','Controller auction settings. The auction interface opens when you visit an auctioneer.\n\nYou cannot buy or sell from anywhere in the world.',controls},
+ {'NightPro Gear','GearedForever','Look up gear by class, spec and level.\n\nD-pad selects a control. A activates it. X uses an alternate click where the tool supports one. LB / RB scroll.',function()if NightProWorkbench then NightProWorkbench:Open('gear')else slash('GEAREDFOREVER')end end},
+ {'NightPro Quests','QuestieForeverGamepad','Read your current quests and objectives in the shared interface.\n\nYour map and tracker stay available. Open Tracker settings from the Quests page.',function()if NightProWorkbench then NightProWorkbench:Open('quests')else slash('QUESTIEFOREVERGAMEPAD','settings')end end},
+ {'NightPro Dungeons & Loot','NeedRoll','Find dungeons, bosses, drops and dungeon quests.\n\nUse D-pad and A to browse. LB / RB changes pages. B steps back through bosses and dungeons.',function()if NightProWorkbench then NightProWorkbench:Open('dungeons')else slash('NEEDROLL')end end},
+ {'NightPro Auctions','ImprovedForever_Auction','Saved auction prices in the shared interface. Live trading opens at an auctioneer.\n\nYou cannot buy or sell from anywhere in the world.',function()if NightProWorkbench then NightProWorkbench:Open('auctions')else controls()end end},
  {'NightPro Inventory','BagPad','Inventory snapshots and saved characters.\n\nSnapshots only know what the addon has seen. Visit a character or bank to update them.',function()slash('BAGPAD','characters')end},
  {'NightPro Controls','ImprovedForever','Open controller bindings and module settings.\n\nThe kit keeps your existing bindings. Tools with their own controller support keep handling their own buttons.',controls},
  {'NightPro Nameplates','Platynator','Optional nameplate settings.\n\nPlatynator is a separate addon by plusmouse. Its original editor stays intact; some editing controls still need a pointer.',function()slash('Platynator')end},
@@ -95,12 +95,14 @@ local function release()
  mark:Hide();selected=nil
 end
 local function focus(f)
+ if selected==f then return end
  if selected and selected~=f then local cb=selected:GetScript('OnLeave');if cb then cb(selected)end end
  selected=f;if not f then mark:Hide();return end
  mark:ClearAllPoints();mark:SetPoint('TOPLEFT',f,'TOPLEFT',-3,3);mark:SetPoint('BOTTOMRIGHT',f,'BOTTOMRIGHT',3,-3);mark:Show()
- local cb=f:GetScript('OnEnter');if cb then cb(f)end
+ local cb=f:GetScript('OnEnter');if cb and root==panel then cb(f)end
 end
 local function collect(f)
+ if f and f.NightProMove then buttons={};mark:Hide();return end
  buttons={};local function walk(parent,depth)
   if depth>15 then return end
   for _,child in ipairs({parent:GetChildren()})do
@@ -116,7 +118,7 @@ local function collect(f)
  if not kept then focus(buttons[1] and buttons[1].f)end
 end
 local function move(dx,dy)
- if not root then return end;collect(root);if not selected then return end
+ if not root then return end;if root.NightProMove then root:NightProMove(dx,dy);return end;collect(root);if not selected then return end
  local x,y=selected:GetCenter();local best,cost
  for _,b in ipairs(buttons)do
   local ex,ey=b.x-x,b.y-y;local forward=ex*dx+ey*dy;local side=math.abs(ex*dy-ey*dx)
@@ -125,11 +127,13 @@ local function move(dx,dy)
  if best then focus(best)end
 end
 local function click(which)
+ if not InCombatLockdown() and visible(root) and root.NightProActivate then root:NightProActivate(which);return end
  if InCombatLockdown() or not visible(selected) or not allowed(selected) then return end
  selected:Click(which or 'LeftButton');C_Timer.After(0,function()if visible(root)then collect(root)end end)
 end
 local function scroll(delta)
- if not root then return end
+ if InCombatLockdown() or not root then return end
+ if root.NightProScroll then root:NightProScroll(delta);return end
  local f=selected
  while f do local cb=f:GetScript('OnMouseWheel');if cb then cb(f,delta);C_Timer.After(0,function()if visible(root)then collect(root)end end);return end;if f==root then break end;f=f:GetParent()end
  local function find(parent)
@@ -140,7 +144,8 @@ local function scroll(delta)
 end
 local function back()
  if InCombatLockdown()then return end
- if root and allowed(root)then root:Hide()end
+ if root and root.NightProBack then root:NightProBack();if visible(root)then return end
+ elseif root and allowed(root)then root:Hide()end
  release();root=nil
 end
 local defs={PADDUP=function()move(0,1)end,PADDDOWN=function()move(0,-1)end,PADDLEFT=function()move(-1,0)end,PADDRIGHT=function()move(1,0)end,PAD1=function()click('LeftButton')end,PAD3=function()click('RightButton')end,PAD2=back,PADLSHOULDER=function()scroll(1)end,PADRSHOULDER=function()scroll(-1)end}
@@ -150,7 +155,7 @@ local function bind()
  own:Execute('self:ClearBindings()')
  for key,name in pairs(targets)do own:Execute(('self:SetBindingClick(true, %q, %q, "LeftButton")'):format(key,name))end;active=true
 end
-local rootNames={'NightProAddonMenu','GearedForeverFrame','NeedRollFrame','NeedRollNativeFrame','NeedRollDarkFrame','NeedRollElvUIFrame'}
+local rootNames={'NightProWorkbenchFrame','NightProAddonMenu','GearedForeverFrame','NeedRollFrame','NeedRollNativeFrame','NeedRollDarkFrame','NeedRollElvUIFrame'}
 local function currentRoot()
  if visible(panel) then return panel end
  local best
@@ -200,7 +205,7 @@ driver:SetScript('OnUpdate',function(_,dt)
  if visible(GamepadRadial)then release();return end
  local nextRoot=currentRoot()
  if nextRoot~=root then release();root=nextRoot;if root then collect(root);bind()end
- elseif root then collect(root);if not active then bind()end end
+ elseif root then if not active then collect(root);bind()end end
 end)
 driver:RegisterEvent('PLAYER_REGEN_DISABLED');driver:RegisterEvent('PLAYER_REGEN_ENABLED');driver:SetScript('OnEvent',function()release();root=nil end)
 SLASH_NIGHTPROMENU1='/npmenu';SlashCmdList.NIGHTPROMENU=function()if not InCombatLockdown()then panel:SetShown(not panel:IsShown())end end

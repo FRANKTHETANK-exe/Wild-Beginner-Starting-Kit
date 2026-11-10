@@ -31,6 +31,7 @@ if (-not $SkipDependencies) {
 }
 Write-Host "NightPro menu -> $targetRoot"
 foreach ($package in $plan) { Write-Host "Download: $($package.id) - $($package.version)" }
+& (Join-Path $PSScriptRoot 'Install-Bridges.ps1') -AddonPath $targetRoot -Preview
 if ($Preview) { return }
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -84,6 +85,7 @@ New-Item -ItemType Directory -Path $destination -Force | Out-Null
 Get-ChildItem -LiteralPath $source -File | ForEach-Object {
     Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $destination $_.Name) -Force
 }
+& (Join-Path $PSScriptRoot 'Install-Bridges.ps1') -AddonPath $targetRoot
 Write-Host 'Installed. Reopen WoW through Battle.net if this is a first install; otherwise use /reload outside combat.'
 if ($backup) { Write-Host "Previous NightPro menu: $backup" }
 Write-Host "Verified download cache: $sessionRoot"

@@ -24,6 +24,7 @@ if (-not $rejected) { throw 'Invalid destination accepted' }
 $fixture = Join-Path $testRoot 'fixture'
 New-Item -ItemType Directory -Path $fixture | Out-Null
 Copy-Item -LiteralPath $installer -Destination $fixture
+Copy-Item -LiteralPath (Join-Path $repo 'Install-Bridges.ps1') -Destination $fixture
 Copy-Item -LiteralPath (Join-Path $repo 'AddOns') -Destination $fixture -Recurse
 $global:nightProTestArchive = Join-Path $testRoot 'upstream.zip'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
