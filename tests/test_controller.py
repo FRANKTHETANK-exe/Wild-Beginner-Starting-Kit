@@ -61,6 +61,12 @@ NightProMenuChoice10:Click();assert(NightProAddonMenu:IsVisible(),'Start Here mu
 NightProMenuChoice11:Click();assert(NightProAddonMenu:IsVisible(),'Credits must stay open')
 local opened=0;SlashCmdList.GEAREDFOREVER=function()opened=opened+1 end
 NightProMenuChoice3:Click();assert(opened==1 and not NightProAddonMenu:IsVisible(),'Gear launch')
+local oldLoaded=C_AddOns.IsAddOnLoaded
+C_AddOns.IsAddOnLoaded=function()return true end
+local bagCommand;SlashCmdList.BAGPAD=function(arg)bagCommand=arg end
+SlashCmdList.NIGHTPROMENU();NightProMenuChoice7:Click()
+assert(bagCommand=='characters','Inventory must open the visual snapshot browser')
+C_AddOns.IsAddOnLoaded=oldLoaded
 SlashCmdList.NIGHTPROMENU();tick()
 assert(bindings.PAD2=='NightProNav_PAD2')
 NightProNav_PAD2:Click();assert(not NightProAddonMenu:IsVisible());assert(next(bindings)==nil)

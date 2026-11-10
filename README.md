@@ -37,6 +37,8 @@ Use `-Preview` to see the plan without installing anything. Use `-SkipDependenci
 
 The wheel shortcut appears only when that page has a free slot. The kit does not overwrite a filled slot or replace your bindings.
 
+**Bag Settings** opens the layout and controller options. Open your actual inventory from **Bags** on the native wheel; that preserves the game's secure item controls. **Inventory** opens the visual snapshot browser.
+
 ## Controller buttons
 
 | Button | NightPro menu, Gear and Dungeons |
