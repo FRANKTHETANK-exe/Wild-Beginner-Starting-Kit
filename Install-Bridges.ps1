@@ -6,7 +6,8 @@ if (-not (Test-Path -LiteralPath $targetRoot -PathType Container) -or
     $targetRoot -notmatch '[\\/]_forever_[\\/]Interface[\\/]AddOns$') { throw 'Choose the _forever_\Interface\AddOns folder.' }
 $bridges=@(
     @{Path='GearedForever\Core.lua'; Hash='6684E66BFCE42AFF44B6C6F633C5F2D917289E94AC28519407CDC1FB4D545B62'; Code='ns.NightProClasses = CLASSES; NightProGearData = ns'},
-    @{Path='NeedRoll\API.lua'; Hash='45E509A2A569EDDF2F91AE593C44F862DFAF4355C404FD5820135FC6E2E16066'; Code='NightProDungeonData = ns'}
+    @{Path='NeedRoll\API.lua'; Hash='45E509A2A569EDDF2F91AE593C44F862DFAF4355C404FD5820135FC6E2E16066'; Code='NightProDungeonData = ns'},
+    @{Path='QuestieForeverGamepad\Core.lua'; Hash='B025321099A9702E0CEF17488980A15D0032759FA49FF01236506698BC25F2AA'; Code='NightProQuestVisualData = {}; for _, key in ipairs({"ResolveTrackerTarget", "EntityModelRequest", "ConfigureEntityCamera"}) do local method = key; NightProQuestVisualData[method] = function(_, ...) local p = QFG.QuestPreview; if p and p[method] then return p[method](p, ...) end end end'}
 )
 $utf8=New-Object Text.UTF8Encoding($false)
 $plan=@()

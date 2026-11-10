@@ -32,7 +32,7 @@ function methods:Execute(code)assert(load(code,'snippet','t',{self=self}))()end
 function RegisterStateDriver()end
 C_AddOns={IsAddOnLoaded=function(name)return name=='GearedForever' end}
 function methods:Click(btn) if self.scripts.OnClick then self.scripts.OnClick(self,btn)end end
-for _,n in ipairs({'SetBackdrop','SetBackdropBorderColor','SetBackdropColor','SetFrameStrata','SetSize','SetPoint','SetText','SetTextColor','SetAllPoints','SetTexture','RegisterForClicks','RegisterEvent','ClearAllPoints','EnableMouse','SetClampedToScreen','SetWidth','SetJustifyH','SetSpacing','SetScale','SetFrameLevel'})do methods[n]=function()end end
+for _,n in ipairs({'SetBackdrop','SetBackdropBorderColor','SetBackdropColor','SetFrameStrata','SetSize','SetPoint','SetText','SetTextColor','SetAllPoints','SetTexture','RegisterForClicks','RegisterEvent','ClearAllPoints','EnableMouse','SetClampedToScreen','SetWidth','SetJustifyH','SetSpacing','SetScale','SetFrameLevel','SetHeight','EnableMouseWheel'})do methods[n]=function()end end
 function CreateFrame(kind,name,parent,template)
  local f=setmetatable({kind=kind,name=name,parent=parent,children={},scripts={},shown=true}, {__index=methods})
  if parent then table.insert(parent.children,f)end
@@ -50,21 +50,22 @@ C_Timer={After=function(_,fn)fn()end}
 GamepadRadial=setmetatable({}, {__index={IsVisible=function()return false end},__newindex=function()error('Native wheel mutation')end})
 ''')
 source=(Path(__file__).resolve().parents[1] / 'AddOns/NightProController/NightProController.lua').read_text(encoding='utf-8-sig')
+lua.execute('function NightProCreateEmblem()end')
 lua.execute(source)
 lua.execute(r'''
 local driver=frames[#frames]
 local function tick()driver.scripts.OnUpdate(driver,.11)end
 SlashCmdList.NIGHTPROMENU();tick()
 assert(NightProAddonMenu:IsVisible())
-NightProMenuChoice1:Click();assert(NightProAddonMenu:IsVisible(),'Missing dependency must leave menu open')
-NightProMenuChoice10:Click();assert(NightProAddonMenu:IsVisible(),'Start Here must stay open')
-NightProMenuChoice11:Click();assert(NightProAddonMenu:IsVisible(),'Credits must stay open')
-local opened=0;SlashCmdList.GEAREDFOREVER=function()opened=opened+1 end
-NightProMenuChoice3:Click();assert(opened==1 and not NightProAddonMenu:IsVisible(),'Gear launch')
+NightProMenuChoice2:Click();assert(NightProAddonMenu:IsVisible(),'Missing dependency must leave menu open')
+NightProMenuChoice1:Click();assert(NightProAddonMenu:IsVisible(),'Start Here must stay open')
+NightProMenuChoice8:Click();assert(NightProAddonMenu:IsVisible(),'Credits must stay open')
+local opened=0;NightProWorkbench={Open=function(_,key)assert(key==nil);opened=opened+1 end}
+NightProMenuChoice4:Click();assert(opened==1 and not NightProAddonMenu:IsVisible(),'Gear launch')
 local oldLoaded=C_AddOns.IsAddOnLoaded
 C_AddOns.IsAddOnLoaded=function()return true end
 local bagCommand;SlashCmdList.BAGPAD=function(arg)bagCommand=arg end
-SlashCmdList.NIGHTPROMENU();NightProMenuChoice7:Click()
+SlashCmdList.NIGHTPROMENU();NightProMenuChoice5:Click()
 assert(bagCommand=='characters','Inventory must open the visual snapshot browser')
 C_AddOns.IsAddOnLoaded=oldLoaded
 SlashCmdList.NIGHTPROMENU();tick()
@@ -81,16 +82,7 @@ print('PASS: private menu, real button navigation, B closes/releases, combat gua
 
 
 theme=(Path(__file__).resolve().parents[1] / 'AddOns/NightProController/NightProTheme.lua').read_text()
+before = lua.eval('#frames')
 lua.execute(theme)
-lua.execute(r'''
-local themeDriver=frames[#frames]
-local before=#frames
-combat=true;themeDriver.scripts.OnUpdate(themeDriver,.6)
-assert(#frames==before,'Theme must not build frames in combat')
-combat=false;GearedForeverFrame:Show()
-themeDriver.scripts.OnUpdate(themeDriver,.6)
-assert(#frames>before,'Visible supported window should receive theme')
-local themed=#frames;themeDriver.scripts.OnUpdate(themeDriver,.6)
-assert(#frames==themed,'Theme must not create duplicate borders')
-''')
-print('PASS: missing dependency, launch, help, credits, theme combat guard and reuse')
+assert lua.eval('#frames') == before, 'Original addon windows must not receive replacement branding'
+print('PASS: upstream windows keep their own identity')

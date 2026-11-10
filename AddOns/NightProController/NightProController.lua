@@ -2,6 +2,16 @@
 -- The read-only wheel overlay follows the design of QuestieForeverGamepad RadialMenu.lua
 -- (QuestieForeverGamepad contributors, GPL-3.0-only). This file is GPL-3.0-only.
 local root,selected,buttons,active
+local audit=CreateFrame('Frame')
+audit:RegisterEvent('ADDON_ACTION_BLOCKED');audit:RegisterEvent('ADDON_ACTION_FORBIDDEN')
+audit:SetScript('OnEvent',function(_,event,addon,action)
+ if addon~='NightProController' then return end
+ NightProKitDiagnostics=NightProKitDiagnostics or {}
+ local d=NightProKitDiagnostics
+ d[#d+1]={at=date('%Y-%m-%d %H:%M:%S'),page='controller',message=event..': '..tostring(action)}
+ while #d>12 do table.remove(d,1)end
+ print('|cffffd100NightPro|r: '..event..' - '..tostring(action))
+end)
 local own=CreateFrame('Frame','NightProControllerBindings',UIParent,'SecureHandlerStateTemplate')
 own:SetAttribute('_onstate-combat', 'if newstate == "combat" then self:ClearBindings() end')
 RegisterStateDriver(own,'combat','[combat] combat; peace')
@@ -10,7 +20,7 @@ mark:SetBackdrop({edgeFile='Interface\\Buttons\\WHITE8x8',edgeSize=3});mark:SetB
 local legend=mark:CreateFontString(nil,'OVERLAY','GameFontNormal');legend:SetPoint('BOTTOM',UIParent,'BOTTOM',0,38);legend:SetText('D-pad: move   A: select   X: alternate   B: back   LB/RB: scroll')
 
 local panel=CreateFrame('Frame','NightProAddonMenu',UIParent,'BackdropTemplate')
-panel:SetSize(920,650);panel:SetPoint('CENTER');panel:SetFrameStrata('DIALOG')
+panel:SetSize(620,900);panel:SetPoint('CENTER');panel:SetFrameStrata('DIALOG')
 panel:SetClampedToScreen(true)
 panel:SetBackdrop({bgFile='Interface\\Buttons\\WHITE8x8',edgeFile='Interface\\Buttons\\WHITE8x8',edgeSize=2})
 panel:SetBackdropColor(.035,.035,.045,.98);panel:SetBackdropBorderColor(.65,.55,.30,.9)
@@ -20,19 +30,19 @@ local function text(parent,font,x,y,width,value)
  f:SetPoint('TOPLEFT',x,y);f:SetWidth(width);f:SetJustifyH('LEFT');f:SetText(value)
  return f
 end
-local heading=text(panel,'GameFontNormalLarge',24,-22,870,'NIGHTPRO  |  WILD BEGINNER STARTING KIT')
+local heading=text(panel,'GameFontNormalLarge',24,-22,550,'NIGHTPRO  |  BEGINNER KIT')
 heading:SetTextColor(1,.82,0)
-text(panel,'GameFontHighlight',24,-53,870,'Controller support for World of Warcraft Forever')
+text(panel,'GameFontHighlight',24,-53,550,'Bags, bank and your Adventure Hub')
 local detail=CreateFrame('Frame',nil,panel,'BackdropTemplate')
-detail:SetPoint('TOPLEFT',400,-93);detail:SetSize(496,484)
+detail:SetPoint('TOPLEFT',24,-505);detail:SetSize(572,330)
 detail:SetBackdrop({bgFile='Interface\\Buttons\\WHITE8x8',edgeFile='Interface\\Buttons\\WHITE8x8',edgeSize=1})
 detail:SetBackdropColor(.06,.06,.075,1);detail:SetBackdropBorderColor(.40,.35,.22,.8)
-local detailTitle=text(detail,'GameFontNormalLarge',22,-24,452,'Welcome')
+local detailTitle=text(detail,'GameFontNormalLarge',18,-18,536,'Welcome')
 detailTitle:SetTextColor(1,.82,0)
-local detailBody=text(detail,'GameFontHighlight',22,-65,452,'Choose a tool on the left.')
-detailBody:SetSpacing(5)
-local status=text(detail,'GameFontNormal',22,-434,452,'')
-local footer=text(panel,'GameFontHighlight',24,-604,870,'D-pad: move    A: open    B: close    LB / RB: scroll')
+local detailBody=text(detail,'GameFontHighlight',18,-57,536,'Choose a tool above.')
+detailBody:SetSpacing(4);detailBody:SetHeight(215)
+local status=text(detail,'GameFontNormal',18,-293,536,'')
+local footer=text(panel,'GameFontHighlight',24,-860,572,'D-pad: choose   A: open   B: close   LB / RB: read more')
 footer:SetTextColor(.85,.80,.68)
 local function loaded(name)
  local fn=C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
@@ -43,26 +53,30 @@ local function slash(key,arg)
  print('|cffffd100NightPro|r: This tool is not ready. Check the AddOns list at character selection.')
 end
 local function controls()
- if ImprovedForever and ImprovedForever.RunCommand then ImprovedForever.RunCommand('') end
+ if NightProSettings then NightProSettings:Open() end
 end
-local firstSteps='1. Open NightPro from the empty slot on wheel page 3, or type /npmenu.\n\n2. Bags still opens the native controller bag. Use its own button prompts to equip, move or destroy items.\n\n3. Visit your bank once to save its contents. Snapshots show the last visit; they cannot move remote items.\n\n4. Check Gear for upgrades, then Dungeons for drops and quests.\n\n5. Auction buying and selling still needs an auctioneer.\n\nB backs out of this menu and supported tool windows. Combat keeps control of your game buttons.'
-local credits='BagPad: Chris / TheFerdinandGamer (MIT).\n\nImproved Forever and Auction: markg / markgravity (MIT). Includes work from moust4ki\'s Easy Controller (MIT).\n\nGearedForever: Nathan / fistedwaffles05 (GPLv3).\n\nNeedRoll: mikebvs / flowmotion_x (GPLv3).\n\nQuestie Forever Gamepad: Tombons97 and contributors (GPLv3). Questie and QuestieDB: their contributors.\n\nBagPad\'s style cites xeR\'s Forever Quality of Life Settings.\n\nNightPro: this shared menu, branding and navigation adapter. Original addon code and authorship stay with their creators.'
+local firstSteps='1. Open Adventure Hub from wheel page 3 or the blue/red minimap emblem. /adventurehub opens it too. This kit menu is /npmenu.\n\n2. Bags still opens the native controller bag. Use its own button prompts to equip, move or destroy items.\n\n3. Visit your bank once to save its contents. Snapshots show the last visit; they cannot move remote items.\n\n4. Open Adventure Hub. Find Gear, My Quests, Dungeons & Loot and Auction Prices are sections inside it.\n\n5. Auction buying and selling still needs an auctioneer.\n\nB backs out of this menu and supported tool windows. Combat keeps control of your game buttons.'
+local credits='BagPad: Chris / TheFerdinandGamer (MIT).\n\nImproved Forever and Auction: markg / markgravity (MIT). Includes work from moust4ki\'s Easy Controller (MIT).\n\nGearedForever: Nathan / fistedwaffles05 (GPLv3).\n\nNeedRoll: mikebvs / flowmotion_x (GPLv3).\n\nQuestie Forever Gamepad: Tombons97 and contributors (GPLv3). Questie and QuestieDB: their contributors. Questie provides quest data, map pins and tracking; Questie Forever Gamepad provides objective pictures and model framing.\n\nBagPad\'s style cites xeR\'s Forever Quality of Life Settings.\n\nNightPro: this shared menu, branding and navigation adapter. Original addon code and authorship stay with their creators.'
 local choices={
- {'NightPro Bag Settings','BagPad','Open the bag layout and controller options.\n\nTo open your inventory, choose Bags on the native controller wheel. Use its item prompts to equip, move or destroy items.',function()slash('BAGPAD')end},
- {'NightPro Bank','BagPad','Browse bank contents saved on your last visit.\n\nVisit a banker to deposit or withdraw items. This does not provide remote bank access.',function()slash('BAGPAD','bank')end},
- {'NightPro Gear','GearedForever','Look up gear by class, spec and level.\n\nD-pad selects a control. A activates it. X uses an alternate click where the tool supports one. LB / RB scroll.',function()if NightProWorkbench then NightProWorkbench:Open('gear')else slash('GEAREDFOREVER')end end},
- {'NightPro Quests','QuestieForeverGamepad','Read your current quests and objectives in the shared interface.\n\nYour map and tracker stay available. Open Tracker settings from the Quests page.',function()if NightProWorkbench then NightProWorkbench:Open('quests')else slash('QUESTIEFOREVERGAMEPAD','settings')end end},
- {'NightPro Dungeons & Loot','NeedRoll','Find dungeons, bosses, drops and dungeon quests.\n\nUse D-pad and A to browse. LB / RB changes pages. B steps back through bosses and dungeons.',function()if NightProWorkbench then NightProWorkbench:Open('dungeons')else slash('NEEDROLL')end end},
- {'NightPro Auctions','ImprovedForever_Auction','Saved auction prices in the shared interface. Live trading opens at an auctioneer.\n\nYou cannot buy or sell from anywhere in the world.',function()if NightProWorkbench then NightProWorkbench:Open('auctions')else controls()end end},
- {'NightPro Inventory','BagPad','Inventory snapshots and saved characters.\n\nSnapshots only know what the addon has seen. Visit a character or bank to update them.',function()slash('BAGPAD','characters')end},
- {'NightPro Controls','ImprovedForever','Open controller bindings and module settings.\n\nThe kit keeps your existing bindings. Tools with their own controller support keep handling their own buttons.',controls},
- {'NightPro Nameplates','Platynator','Optional nameplate settings.\n\nPlatynator is a separate addon by plusmouse. Its original editor stays intact; some editing controls still need a pointer.',function()slash('Platynator')end},
  {'Start Here',nil,firstSteps},
+ {'Bag Settings - BagPad','BagPad','BagPad by Chris / TheFerdinandGamer provides the inventory and its item controls.\n\nTo open your inventory, choose Bags on the native controller wheel. Use its item prompts to equip, move or destroy items.',function()slash('BAGPAD')end},
+ {'Bank - BagPad','BagPad','BagPad provides bank contents saved on your last visit.\n\nVisit a banker to deposit or withdraw items. This does not provide remote bank access.',function()slash('BAGPAD','bank')end},
+ {'Adventure Hub',nil,'Gear, quests, dungeons and auction prices are now four sections of ONE hub.\n\nOpen it, choose what you want to do, then select an entry to read its details. B takes you back one step.',function()if NightProWorkbench then NightProWorkbench:Open()end end},
+ {'Inventory - BagPad','BagPad','BagPad provides inventory snapshots and saved characters.\n\nSnapshots only know what the addon has seen. Visit a character or bank to update them.',function()slash('BAGPAD','characters')end},
+ {'NightPro Controls',nil,'Choose controller or keyboard-and-mouse navigation.\n\nJourney opens the tracking controls inside Adventure Hub. Controller bindings open the original Improved Forever editor.',controls},
+ {'Nameplates - Platynator','Platynator','Optional nameplate settings.\n\nPlatynator is a separate addon by plusmouse. Its original editor stays intact; some editing controls still need a pointer.',function()slash('Platynator')end},
  {'Credits',nil,credits},
  {'Close',nil,'Back to the game.',function()end},
 }
+local detailPages,detailPage={},1
 local function describe(choice)
- detailTitle:SetText(choice[1]);detailBody:SetText(choice[3])
+ detailTitle:SetText(choice[1]);detailPages={};detailPage=1
+ local part='';for line in (choice[3]..'\n'):gmatch('(.-)\n')do
+  if #part+#line>480 then detailPages[#detailPages+1]=part;part=''end
+  part=part..line..'\n'
+ end
+ if part~=''then detailPages[#detailPages+1]=part end
+ detailBody:SetText(detailPages[1]or '')
  if choice[2] then
   local ready=loaded(choice[2]);status:SetText(ready and 'READY' or 'NOT LOADED - see the install guide')
   status:SetTextColor(ready and .55 or 1,ready and .85 or .65,.35)
@@ -70,10 +84,10 @@ local function describe(choice)
 end
 for i,choice in ipairs(choices) do
  local b=CreateFrame('Button','NightProMenuChoice'..i,panel,'BackdropTemplate')
- b:SetSize(352,35);b:SetPoint('TOPLEFT',24,-93-(i-1)*40)
+ b:SetSize(572,39);b:SetPoint('TOPLEFT',24,-93-(i-1)*44)
  b:SetBackdrop({bgFile='Interface\\Buttons\\WHITE8x8',edgeFile='Interface\\Buttons\\WHITE8x8',edgeSize=1})
  b:SetBackdropColor(.08,.08,.10,1);b:SetBackdropBorderColor(.40,.35,.22,.8)
- local label=text(b,'GameFontHighlight',14,-10,315,choice[1])
+ local label=text(b,'GameFontHighlight',14,-10,540,choice[1])
  b:SetScript('OnEnter',function(self) self:SetBackdropColor(.20,.17,.08,1);describe(choice) end)
  b:SetScript('OnLeave',function(self) self:SetBackdropColor(.08,.08,.10,1) end)
  b:SetScript('OnClick',function()
@@ -85,8 +99,13 @@ for i,choice in ipairs(choices) do
 end
 panel:SetScript('OnShow',function()
  local width,height=UIParent:GetWidth(),UIParent:GetHeight()
- panel:SetScale(math.min(1,(width-32)/920,(height-32)/650))
- describe(choices[10])
+ panel:SetScale(math.min(1,width*.29/620,height*.60/900));panel:ClearAllPoints();panel:SetPoint('CENTER',UIParent,'CENTER',0,0)
+ describe(choices[1])
+end)
+panel:EnableMouseWheel(true)
+panel:SetScript('OnMouseWheel',function(_,delta)
+ detailPage=math.max(1,math.min(#detailPages,detailPage+(delta>0 and -1 or 1)))
+ detailBody:SetText(detailPages[detailPage]or '')
 end)
 local function visible(f) return f and f.IsVisible and f:IsVisible() end
 local function allowed(f) return f and not (f.IsForbidden and f:IsForbidden()) and not (f.IsProtected and f:IsProtected()) end
@@ -155,7 +174,7 @@ local function bind()
  own:Execute('self:ClearBindings()')
  for key,name in pairs(targets)do own:Execute(('self:SetBindingClick(true, %q, %q, "LeftButton")'):format(key,name))end;active=true
 end
-local rootNames={'NightProWorkbenchFrame','NightProAddonMenu','GearedForeverFrame','NeedRollFrame','NeedRollNativeFrame','NeedRollDarkFrame','NeedRollElvUIFrame'}
+local rootNames={'NightProSettingsFrame','NightProWorkbenchFrame','NightProAddonMenu','GearedForeverFrame','NeedRollFrame','NeedRollNativeFrame','NeedRollDarkFrame','NeedRollElvUIFrame'}
 local function currentRoot()
  if visible(panel) then return panel end
  local best
@@ -169,14 +188,14 @@ local function currentRoot()
 end
 -- Own visual on the last empty slot of native wheel page 3, leaving Questie's first slot free.
 local overlay=CreateFrame('Frame',nil,UIParent);overlay:SetFrameStrata('FULLSCREEN_DIALOG');overlay:EnableMouse(false);overlay:SetSize(60,60);overlay:Hide()
-local icon=overlay:CreateTexture(nil,'ARTWORK');icon:SetAllPoints();icon:SetTexture(134063)
-local label=overlay:CreateFontString(nil,'OVERLAY','GameFontNormal');label:SetPoint('TOP',overlay,'BOTTOM',0,-3);label:SetText('NightPro Kit')
+local icon=overlay:CreateTexture(nil,'ARTWORK');icon:SetAllPoints();icon:Hide();NightProCreateEmblem(overlay,60)
+local label=overlay:CreateFontString(nil,'OVERLAY','GameFontNormal');label:SetPoint('TOP',overlay,'BOTTOM',0,-3);label:SetText('Adventure Hub')
 local lastIndex,slot,armed,waitOpen,closeOwner,closeTarget
 local function wheelTick()
  local w=GamepadRadial
  if not visible(w)then
   overlay:Hide()
-  if armed and w and not w.isCancelled then if waitOpen then armed=nil;waitOpen=nil;panel:Show()else waitOpen=true end else armed=nil end
+  if armed and w and not w.isCancelled then if waitOpen then armed=nil;waitOpen=nil;if NightProWorkbench then NightProWorkbench:Open()else panel:Show()end else waitOpen=true end else armed=nil end
   lastIndex=nil;return
  end
  local page=w.mainMenuPages and w.mainMenuPages[3]
@@ -192,7 +211,7 @@ local function wheelTick()
   if not InCombatLockdown()then
    closeOwner=closeOwner or CreateFrame('Frame',nil,UIParent,'SecureHandlerBaseTemplate')
    if closeTarget~=w then closeOwner:SetFrameRef('wheel',w);closeTarget=w end
-   local ok=pcall(closeOwner.Execute,closeOwner,'local wheel=self:GetFrameRef("wheel"); if wheel then wheel:Hide(true) end');if not ok then label:SetText('NightPro Kit - press B')end
+   local ok=pcall(closeOwner.Execute,closeOwner,'local wheel=self:GetFrameRef("wheel"); if wheel then wheel:Hide(true) end');if not ok then label:SetText('Adventure Hub - press B')end
   end
  end
  lastIndex=index
@@ -200,7 +219,7 @@ end
 local timer=0;local driver=CreateFrame('Frame')
 driver:SetScript('OnUpdate',function(_,dt)
  timer=timer+dt;if timer<.10 then return end;timer=0
- if InCombatLockdown()or not(InputUtil and InputUtil.IsGamepadUIEnabled())then release();overlay:Hide();armed=nil;waitOpen=nil;lastIndex=nil;return end
+ if InCombatLockdown()or (NightProPreferences and NightProPreferences.controllerEnabled==false)or not(InputUtil and InputUtil.IsGamepadUIEnabled())then release();overlay:Hide();armed=nil;waitOpen=nil;lastIndex=nil;return end
  wheelTick()
  if visible(GamepadRadial)then release();return end
  local nextRoot=currentRoot()

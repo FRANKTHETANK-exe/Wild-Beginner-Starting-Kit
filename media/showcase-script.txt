@@ -1,0 +1,17 @@
+This is Wild Beginner Starting Kit. It brings existing addons into one place, so new players can find what they need without memorizing a list of commands.
+
+Adventure Hub has four clear choices: gear, quests, dungeon loot, and saved auction prices. Choose a section, open an entry, then go back one step when you are done.
+
+The gear page starts with your class. Choose a role, a slot, and the level range you need. These are suggestions from GearedForever, not automatic equipment changes.
+
+Quest details show the target when the source data provides one. Here, you can see the spider, its level range, and exactly what to collect. Questie and its companion projects provide the quest information and picture helpers.
+
+The dungeon page starts with locations and suggested levels. From there, choose bosses and loot, or dungeon quests. That information comes from NeedRoll.
+
+Your journey brings tracker and arrow controls into the hub. Questie Forever Gamepad still does that work. Its original settings window stays available under its own name.
+
+This is a starting guide and integration pack. We put the tools together and made them easier to navigate. We did not create the original addons, their databases, or their controller systems.
+
+Thank you to the authors of BagPad, Improved Forever, Easy Controller, GearedForever, NeedRoll, Questie Forever Gamepad, Questie, QuestieDB, and Platynator. The project includes their names, source links, and license information. Their work made this possible.
+
+Narration: Windows text-to-speech. Screens: actual in-game captures.

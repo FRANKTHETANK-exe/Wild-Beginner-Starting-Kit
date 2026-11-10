@@ -7,6 +7,10 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$sourceRoot = Join-Path $PSScriptRoot 'AddOns'
+if (-not (Test-Path -LiteralPath $sourceRoot -PathType Container)) {
+    $sourceRoot = Split-Path $PSScriptRoot -Parent
+}
 $targetRoot = [IO.Path]::GetFullPath($AddonPath).TrimEnd('\', '/')
 if (-not (Test-Path -LiteralPath $targetRoot -PathType Container) -or
     [IO.Path]::GetFileName($targetRoot) -ne 'AddOns') {
@@ -67,25 +71,31 @@ foreach ($package in $plan) {
         if (Test-Path -LiteralPath (Join-Path $targetRoot $folder)) { throw "Addon appeared during install: $folder. Nothing replaced." }
     }
 }
-$source = Join-Path $PSScriptRoot 'AddOns\NightProController'
-$destination = Join-Path $targetRoot 'NightProController'
-$backup = $null
-if (Test-Path -LiteralPath $destination) {
-    $backupRoot = Join-Path ([IO.Path]::GetDirectoryName($targetRoot)) 'NightProKitBackups'
-    $backup = Join-Path $backupRoot ((Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N').Substring(0,8))
-    New-Item -ItemType Directory -Path $backup -Force | Out-Null
-    Copy-Item -LiteralPath $destination -Destination $backup -Recurse
+$ownedAddons = @('NightProController','NightProAdventureHub')
+$backupRoot = Join-Path ([IO.Path]::GetDirectoryName($targetRoot)) 'NightProKitBackups'
+$backup = Join-Path $backupRoot ((Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N').Substring(0,8))
+foreach ($folder in $ownedAddons) {
+    $destination = Join-Path $targetRoot $folder
+    if (Test-Path -LiteralPath $destination) {
+        New-Item -ItemType Directory -Path $backup -Force | Out-Null
+        Copy-Item -LiteralPath $destination -Destination $backup -Recurse
+    }
 }
 foreach ($package in $plan) {
     foreach ($folder in $package.folders) {
         Copy-Item -LiteralPath (Join-Path $stageRoot $folder) -Destination $targetRoot -Recurse
     }
 }
-New-Item -ItemType Directory -Path $destination -Force | Out-Null
-Get-ChildItem -LiteralPath $source -File | ForEach-Object {
-    Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $destination $_.Name) -Force
+foreach ($folder in $ownedAddons) {
+    $source = Join-Path $sourceRoot $folder
+    $destination = Join-Path $targetRoot $folder
+    if ([IO.Path]::GetFullPath($source) -eq [IO.Path]::GetFullPath($destination)) { continue }
+    New-Item -ItemType Directory -Path $destination -Force | Out-Null
+    Get-ChildItem -LiteralPath $source -File | ForEach-Object {
+        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $destination $_.Name) -Force
+    }
 }
 & (Join-Path $PSScriptRoot 'Install-Bridges.ps1') -AddonPath $targetRoot
-Write-Host 'Installed. Reopen WoW through Battle.net if this is a first install; otherwise use /reload outside combat.'
+Write-Host 'Installed. Reopen WoW through Battle.net to discover the separate Adventure Hub addon.'
 if ($backup) { Write-Host "Previous NightPro menu: $backup" }
 Write-Host "Verified download cache: $sessionRoot"

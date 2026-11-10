@@ -53,5 +53,15 @@ $package.folders=@('UnsafeAddon');$package.sha256=(Get-FileHash $global:nightPro
 $rejected=$false
 try { & (Join-Path $fixture 'Install.ps1') -AddonPath $addons } catch { $rejected=$_.Exception.Message -like '*Unsafe archive*' }
 if (-not $rejected) { throw 'Archive traversal was not blocked' }
-Write-Host 'PASS: preview, installation, backup, preserved addons, path validation, hash verification and archive traversal'
+$packaged=Join-Path $testRoot 'packaged\_forever_\Interface\AddOns'
+New-Item -ItemType Directory -Path $packaged -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $repo 'AddOns\NightProController') -Destination $packaged -Recurse
+Copy-Item -LiteralPath (Join-Path $repo 'AddOns\NightProAdventureHub') -Destination $packaged -Recurse
+foreach($file in @('Install.ps1','Install-Bridges.ps1','dependencies.json')) {
+    Copy-Item -LiteralPath (Join-Path $repo $file) -Destination (Join-Path $packaged 'NightProController')
+}
+$beforeHub=(Get-FileHash (Join-Path $packaged 'NightProAdventureHub\NightProWorkbench.lua')).Hash
+& (Join-Path $packaged 'NightProController\Install.ps1') -AddonPath $packaged -SkipDependencies
+if ((Get-FileHash (Join-Path $packaged 'NightProAdventureHub\NightProWorkbench.lua')).Hash -ne $beforeHub) {throw 'Installed-folder setup changed its own source'}
+Write-Host 'PASS: preview, installation, packaged-folder setup, backup, preserved addons, path validation, hash verification and archive traversal'
 Write-Host "Fixtures: $testRoot"
