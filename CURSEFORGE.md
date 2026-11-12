@@ -1,51 +1,83 @@
-# Wild Beginner Starting Kit
+# Wild Starting Kit - The Last Addon Hub You Need
 
-I put this together because I wanted new players to spend less time figuring out addon menus and more time playing. It brings existing tools together through Adventure Hub, with controller navigation and keyboard-and-mouse support.
+A **WoW Forever addon hub for new players**, with optional controller support. Find gear for your class, read your quests, explore dungeon loot and check saved auction prices without juggling four different menus.
 
-**This is a new-player starting guide and integration pack. I did not create the original addons.** NightPro adds the shared pages, launcher, navigation adapter and installation setup. The original tools keep their names, authors and licenses.
+I put this together because I wanted to spend more time playing and less time figuring out addon windows. **NightPro Adventure Hub brings the tools together. The original authors built the addons and databases that make it possible.**
 
-## What it does
+This is the same Wild Beginner Starting Kit project, with a shorter name. Your existing installation and saved settings carry over.
 
-- Adventure Hub gives you four clear choices: gear, quests, dungeon loot and saved auction prices.
-- Gear starts with your class. Choose a role, slot and level range, then check an item's source. Suggestions come from GearedForever.
-- Quest details show objectives, target pictures when available, known enemy levels and a short next step. Questie, QuestieDB and Questie Forever Gamepad provide the quest information and picture helpers.
-- Your journey puts tracker visibility and arrow controls inside the hub. The original Questie Forever Gamepad editor remains available under its own name.
-- Dungeons & Loot separates locations, bosses, loot and dungeon quests, using NeedRoll's information.
-- Auction Prices shows saved observations from Improved Forever. Buying and selling still require an auctioneer.
-- BagPad provides the native controller bags, item actions and bank snapshots. NightPro does not replace those systems.
-- The kit's menus use a narrow, centered layout for portrait streams. Controller navigation is optional; keyboard and mouse remain available.
+**For World of Warcraft Forever, interface 16001. Windows setup. Not Retail or Classic.**
 
-## Compatibility and installation
+## 1.5.2 Beta update
 
-**WoW Forever only, interface 16001. This is an alpha integration release, not a Retail or Classic addon.**
+The new screenshots show the 1.5.2 Beta: D-pad page changes, connected gear sources and quest guides, dungeon maps and improved NPC pictures. The file is being submitted for review; check the Files tab for its availability. Older downloads do not contain these new map features.
 
-Installing the two NightPro folders alone is not the full setup. The required addons and three small, version-checked data bridges must also be installed. CurseForge does not run that setup script for you.
+## What's inside
 
-1. Install or extract both NightPro addon folders into `_forever_/Interface/AddOns`.
-2. Close WoW. Open PowerShell in the installed `NightProController` folder.
-3. Run `./Install.ps1 -AddonPath 'D:\World of Warcraft\_forever_\Interface\AddOns'`, replacing the path with your own installation.
-4. Reopen the game through Battle.net. Enable both NightPro addons and their dependencies.
-5. Click the split faction badge on the minimap or choose Adventure Hub on controller wheel page 3 when a free slot is available. `/adventurehub` also opens it. `/npmenu` opens Start Here and the kit controls.
+- **Find Gear:** choose your role, equipment slot and level range. Follow supported item sources into the dungeon loot or quest guide.
+- **My Quests:** read the next step, objectives and known level requirements. See target pictures and quest locations where the original data provides them.
+- **Dungeons & Loot:** browse bosses, rewards and dungeon quests. Open a layout map inside the Hub, switch floors and select a boss to see its loot.
+- **Quest tracking and navigation:** use the side tracker and arrow supplied by Questie Forever Gamepad, with their controls gathered under **My Quests > Tracking & arrow**.
+- **Bags and bank:** keep BagPad's controller inventory, item actions and saved bank view.
+- **Auction Prices:** check saved prices. Buying and selling still happen at an auctioneer.
 
-The installer fetches pinned original releases from their distribution hosts and checks their hashes. It preserves existing addons and saved settings. It backs up supported files before appending the data bridges; unknown versions are refused. After an upstream update, a bridge may need a compatible update too.
+The Hub has one shared layout, a visible Back button and readable pages. Its centered menus fit a portrait crop. Keyboard and mouse work too; controller navigation can be switched off.
 
-Text entry, some advanced settings and moving the arrow still need a keyboard or pointer. The kit does not automate combat, movement, trading or item destruction. Bank and auction snapshots are saved information, not live remote access.
+## Install in four steps
 
-## The people who made this possible
+**1. Install the kit and the original addons.**
 
-- **Chris / TheFerdinandGamer — [BagPad](https://www.curseforge.com/wow/addons/bagpad-forever):** controller bags, item actions, bank and inventory snapshots. MIT.
-- **markg / markgravity — [Improved Forever and Auction](https://github.com/markgravity/ImprovedForever):** controller settings, bindings and auction controls. MIT.
-- **moust4ki — [Easy Controller - Forever](https://github.com/moust4ki/EasyControllerWowForever):** work credited by Improved Forever in its controller configuration, wheel editor and vibration features. MIT.
-- **Nathan / fistedwaffles05 — [GearedForever](https://www.curseforge.com/wow/addons/gearedforever):** gear information and recommendations. GPLv3.
-- **mikebvs / flowmotion_x — [NeedRoll](https://www.curseforge.com/wow/addons/needroll):** dungeon, loot and related quest information. GPLv3.
-- **Tombons97 and contributors — [Questie Forever Gamepad](https://www.curseforge.com/wow/addons/questie-forever-gamepad):** controller quest support, tracker, navigation arrow and quest-picture helpers. GPL-3.0-only.
-- **Questie contributors — [Questie](https://github.com/Questie/Questie):** quest information, maps and tracking. See its original license notices.
-- **Logonz and Questie contributors — [QuestieDB](https://github.com/Questie/QuestieDB):** quest database. See its original license notices.
-- **plusmouse — [Platynator](https://www.curseforge.com/wow/addons/platynator):** optional nameplates. All Rights Reserved; not bundled.
-- **xeR — Forever Quality of Life Settings:** the visual reference credited by BagPad. The kit follows that existing style; it does not claim it as original artwork.
+In the CurseForge app, choose your **Forever** game installation, then install this kit. Use its current Beta file if your app is set to Releases only. The Beta's required dependencies point to the authors' own projects. Check that all eight required addons are installed in the same game folder. Platynator is optional.
 
-Thank you to all of these authors. This kit only brings their work together and makes it easier to move around for new players. Original addon code is downloaded separately, not republished as NightPro's work. World of Warcraft and its game assets belong to Blizzard Entertainment.
+Downloaded the ZIP manually? Extract **NightProController** and **NightProAdventureHub** into `_forever_\Interface\AddOns`, then install the eight originals from the links below. A ZIP cannot download them for you.
 
-NightPro's own integration code is GPL-3.0-only. That license does not replace the licenses of the dependencies.
+**2. Close WoW and connect the addons once.**
 
-[Source, full credits and issue tracker](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit)
+Open `_forever_\Interface\AddOns\NightProController` in File Explorer. Open PowerShell in that folder, then paste:
+
+```powershell
+.\Install.ps1 -AddonPath (Split-Path -Parent $PWD.Path)
+```
+
+This connects the supported original versions to the Hub and saves backups first. It downloads nothing. CurseForge does **not** run this step automatically. If setup reports an unsupported version or Windows blocks the script, stop and use the setup help below.
+
+**3. Launch WoW through Battle.net.**
+
+At character selection, enable both NightPro addons and the required originals in **AddOns**.
+
+**4. Open Adventure Hub.**
+
+Click the split Alliance/Horde emblem by the minimap, or use the **Adventure Hub** shortcut on controller wheel page 3 if a slot is free. You can also type `/adventurehub`.
+
+Start with **Find Gear**, **My Quests**, **Dungeons & Loot** or **Auction Prices**. `/npmenu` opens the kit's **Start Here**, bag settings, controls and credits.
+
+## Controls and quick fixes
+
+- **D-pad up/down:** choose an entry or action.
+- **D-pad left/right:** change list/detail pages; change floors or zones on a map.
+- **A:** open. **B:** go back to where you came from.
+- **LB/RB:** previous/next page. Filters and map actions show their own prompts.
+- **Keyboard and mouse:** click the same buttons. Turn controller navigation off under **NightPro Controls > Input** if you prefer.
+
+Missing a tool? Type `/npdeps` for its status and original download link. Tracker hidden? Open **My Quests > Tracking & arrow**. Updated an original addon? Close WoW and run the connection step again; unknown versions stop for review rather than being overwritten.
+
+Bank and auction views show saved information. Some advanced original settings and text fields still need a mouse or keyboard. The kit does not automate movement, combat or trading.
+
+## Built on the work of these authors
+
+Install these **eight required originals** through their own projects:
+
+- [BagPad](https://www.curseforge.com/wow/addons/bagpad-forever) — **Chris / TheFerdinandGamer**: controller bags, bank and inventory.
+- [GearedForever](https://www.curseforge.com/wow/addons/gearedforever) — **Nathan / fistedwaffles05**: gear information and rankings.
+- [NeedRoll](https://www.curseforge.com/wow/addons/needroll) — **mikebvs / flowmotion_x**: dungeon maps, loot and quest information.
+- [Questie](https://www.curseforge.com/wow/addons/questie) — **the Questie contributors**: quest information, maps and tracking.
+- [QuestieDB](https://www.curseforge.com/wow/addons/questiedb) — **Logonz and the Questie contributors**: quest database.
+- [Questie Forever Gamepad](https://www.curseforge.com/wow/addons/questie-forever-gamepad) — **Tombons97 and contributors**: controller quest support, tracker, arrow and picture helpers.
+- [Improved Forever](https://www.curseforge.com/wow/addons/improved-forever) — **markg / markgravity**: controller settings and bindings.
+- [Improved Forever Auction](https://www.curseforge.com/wow/addons/improved-forever-auction) — **markg / markgravity**: auction controls and price information.
+
+[Platynator](https://www.curseforge.com/wow/addons/platynator) by **plusmouse** is optional. Thanks also to **moust4ki**, whose [Easy Controller](https://github.com/moust4ki/EasyControllerWowForever) work is credited by Improved Forever, and **xeR**, whose Forever Quality of Life Settings is the visual reference credited by BagPad. Individual map-art credits are preserved where supplied.
+
+**I built the shared Hub, navigation adapter and setup around their work. I did not create or rename their addons.** The kit does not bundle their source or databases. Required dependencies keep downloads on the original authors' projects. Each project keeps its own name, license and credit. World of Warcraft and its game assets belong to Blizzard Entertainment.
+
+[Detailed Windows setup and recovery](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/INSTALL.md) · [Full author and license credits](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/CREDITS.md) · [Supported versions](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/DEPENDENCIES.md) · [Report a problem](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/issues)

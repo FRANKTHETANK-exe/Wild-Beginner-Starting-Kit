@@ -1,0 +1,107 @@
+{
+  "format": 1,
+  "client": "World of Warcraft Forever",
+  "interface": 16001,
+  "purpose": "Release relationships for official client-managed original-addon installation. This file itself downloads nothing.",
+  "addons": [
+    {
+      "id": "bagpad",
+      "name": "BagPad",
+      "projectId": 1755460,
+      "projectUrl": "https://www.curseforge.com/wow/addons/bagpad-forever",
+      "folders": [
+        "BagPad"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    },
+    {
+      "id": "geared",
+      "name": "GearedForever",
+      "projectId": 1741641,
+      "projectUrl": "https://www.curseforge.com/wow/addons/gearedforever",
+      "folders": [
+        "GearedForever"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    },
+    {
+      "id": "needroll",
+      "name": "NeedRoll",
+      "projectId": 1731901,
+      "projectUrl": "https://www.curseforge.com/wow/addons/needroll",
+      "folders": [
+        "NeedRoll"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    },
+    {
+      "id": "questie",
+      "name": "Questie",
+      "projectId": 334372,
+      "projectUrl": "https://www.curseforge.com/wow/addons/questie",
+      "folders": [
+        "Questie"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    },
+    {
+      "id": "questiedb",
+      "name": "QuestieDB",
+      "projectId": 1696795,
+      "projectUrl": "https://www.curseforge.com/wow/addons/questiedb",
+      "folders": [
+        "QuestieDB"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    },
+    {
+      "id": "questie-gamepad",
+      "name": "Questie Forever Gamepad",
+      "projectId": 1717482,
+      "projectUrl": "https://www.curseforge.com/wow/addons/questie-forever-gamepad",
+      "folders": [
+        "QuestieForeverGamepad"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    },
+    {
+      "id": "platynator",
+      "name": "Platynator",
+      "projectId": 1361299,
+      "projectUrl": "https://www.curseforge.com/wow/addons/platynator",
+      "folders": [
+        "Platynator"
+      ],
+      "required": false,
+      "relationship": "OptionalDependency"
+    },
+    {
+      "id": "ImprovedForever",
+      "name": "Improved Forever",
+      "projectId": 1731245,
+      "projectUrl": "https://www.curseforge.com/wow/addons/improved-forever",
+      "folders": [
+        "ImprovedForever"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    },
+    {
+      "id": "ImprovedForever_Auction",
+      "name": "Improved Forever Auction",
+      "projectId": 1736874,
+      "projectUrl": "https://www.curseforge.com/wow/addons/improved-forever-auction",
+      "folders": [
+        "ImprovedForever_Auction"
+      ],
+      "required": true,
+      "relationship": "RequiredDependency"
+    }
+  ]
+}

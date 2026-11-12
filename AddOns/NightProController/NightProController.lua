@@ -25,6 +25,12 @@ panel:SetClampedToScreen(true)
 panel:SetBackdrop({bgFile='Interface\\Buttons\\WHITE8x8',edgeFile='Interface\\Buttons\\WHITE8x8',edgeSize=2})
 panel:SetBackdropColor(.035,.035,.045,.98);panel:SetBackdropBorderColor(.65,.55,.30,.9)
 panel:Hide();tinsert(UISpecialFrames,'NightProAddonMenu')
+local function showMenu()
+ if InCombatLockdown()then return end
+ if NightProWorkbenchFrame then NightProWorkbenchFrame:Hide()end
+ if NightProSettingsFrame then NightProSettingsFrame:Hide()end
+ panel:Show()
+end
 local function text(parent,font,x,y,width,value)
  local f=parent:CreateFontString(nil,'OVERLAY',font)
  f:SetPoint('TOPLEFT',x,y);f:SetWidth(width);f:SetJustifyH('LEFT');f:SetText(value)
@@ -46,7 +52,8 @@ local footer=text(panel,'GameFontHighlight',24,-860,572,'D-pad: choose   A: open
 footer:SetTextColor(.85,.80,.68)
 local function loaded(name)
  local fn=C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
- return fn and fn(name)
+ if not fn then return false end
+ local ok,loading,ready=pcall(fn,name);return ok and (ready==nil and loading==true or ready==true)
 end
 local function slash(key,arg)
  if SlashCmdList[key] then SlashCmdList[key](arg or '');return true end
@@ -68,19 +75,57 @@ local choices={
  {'Credits',nil,credits},
  {'Close',nil,'Back to the game.',function()end},
 }
+local dependency=NightProDependencies
+if dependency then
+ choices[1].dependencies=dependency.names
+ choices[4].dependencies={'GearedForever','NeedRoll','Questie','QuestieDB','QuestieForeverGamepad','ImprovedForever','ImprovedForever_Auction'}
+ choices[6].dependencies={'ImprovedForever','QuestieForeverGamepad'}
+end
 local detailPages,detailPage={},1
+local function addPages(value)
+ if not value or value==''then return end
+ local lines={}
+ for line in (value..'\n'):gmatch('(.-)\n')do
+  local part=''
+  for word in line:gmatch('%S+')do
+   if #part>0 and #part+#word+1>64 then lines[#lines+1]=part;part=word else part=part==''and word or part..' '..word end
+  end
+  lines[#lines+1]=part
+ end
+ for i=1,#lines,8 do local page={};for j=i,math.min(i+7,#lines)do page[#page+1]=lines[j]end;detailPages[#detailPages+1]=table.concat(page,'\n')end
+end
 local function describe(choice)
  detailTitle:SetText(choice[1]);detailPages={};detailPage=1
- local part='';for line in (choice[3]..'\n'):gmatch('(.-)\n')do
-  if #part+#line>480 then detailPages[#detailPages+1]=part;part=''end
-  part=part..line..'\n'
- end
- if part~=''then detailPages[#detailPages+1]=part end
+ local names=choice.dependencies or (choice[2]and{choice[2]})or {}
+ local issues,ready={},{ }
+ if dependency then
+  for _,name in ipairs(names)do local v=dependency:State(name);if v then
+   if v.state~='ready'then issues[#issues+1]=name else ready[#ready+1]=name end
+  end end
+  if choice.allHelp then for _,name in ipairs(names)do addPages(dependency:Help(name))end
+  else
+   for _,name in ipairs(issues)do addPages(dependency:Help(name))end
+   addPages(choice[3]);for _,name in ipairs(ready)do addPages(dependency:Help(name))end
+  end
+ else addPages(choice[3])end
  detailBody:SetText(detailPages[1]or '')
- if choice[2] then
-  local ready=loaded(choice[2]);status:SetText(ready and 'READY' or 'NOT LOADED - see the install guide')
-  status:SetTextColor(ready and .55 or 1,ready and .85 or .65,.35)
- else status:SetText('') end
+ if choice[2]then
+  local v=dependency and dependency:State(choice[2]);local isReady=v and v.state=='ready';if not v then isReady=loaded(choice[2])end
+  status:SetText(v and v.label or (isReady and 'READY'or 'NOT LOADED - see the install guide'))
+  status:SetTextColor(isReady and .55 or 1,isReady and .85 or .65,.35)
+ elseif dependency and #names>0 then
+  local summary=dependency:Summary(names);status:SetText(summary..'  |  LB / RB: dependency help')
+  status:SetTextColor(summary=='READY'and .55 or 1,summary=='READY'and .85 or .65,.35)
+ else status:SetText('')end
+end
+if dependency then
+ function dependency:Open(name)
+  if InCombatLockdown()then return end
+  local item=self:Resolve(name);showMenu()
+  describe({item and item.title..' dependency'or 'Dependency status',nil,'',dependencies=item and{item.name}or self.names,allHelp=true})
+ end
+ SLASH_NIGHTPRODEPENDENCIES1='/npdeps'
+ SlashCmdList.NIGHTPRODEPENDENCIES=function(name)dependency:Open(name)end
 end
 for i,choice in ipairs(choices) do
  local b=CreateFrame('Button','NightProMenuChoice'..i,panel,'BackdropTemplate')
@@ -93,7 +138,10 @@ for i,choice in ipairs(choices) do
  b:SetScript('OnClick',function()
   if InCombatLockdown() then return end
   describe(choice)
-  if choice[2] and not loaded(choice[2]) then return end
+  if choice[2] then
+   local value=dependency and dependency:State(choice[2])
+   if not loaded(choice[2])or(value and value.state~='ready')then return end
+  end
   if choice[4] then panel:Hide();C_Timer.After(0,choice[4]) end
  end)
 end
@@ -113,12 +161,12 @@ local function release()
  if active and not InCombatLockdown() then own:Execute('self:ClearBindings()');active=false end
  mark:Hide();selected=nil
 end
-local function focus(f)
+local function focus(f,keepDescription)
  if selected==f then return end
  if selected and selected~=f then local cb=selected:GetScript('OnLeave');if cb then cb(selected)end end
  selected=f;if not f then mark:Hide();return end
  mark:ClearAllPoints();mark:SetPoint('TOPLEFT',f,'TOPLEFT',-3,3);mark:SetPoint('BOTTOMRIGHT',f,'BOTTOMRIGHT',3,-3);mark:Show()
- local cb=f:GetScript('OnEnter');if cb and root==panel then cb(f)end
+ local cb=f:GetScript('OnEnter');if cb and root==panel and not keepDescription then cb(f)end
 end
 local function collect(f)
  if f and f.NightProMove then buttons={};mark:Hide();return end
@@ -134,7 +182,7 @@ local function collect(f)
  end;walk(f,0)
  table.sort(buttons,function(a,b) if math.abs(a.y-b.y)>6 then return a.y>b.y else return a.x<b.x end end)
  local kept=false;for _,b in ipairs(buttons)do if b.f==selected then kept=true;break end end
- if not kept then focus(buttons[1] and buttons[1].f)end
+ if not kept then focus(buttons[1] and buttons[1].f,true)end
 end
 local function move(dx,dy)
  if not root then return end;if root.NightProMove then root:NightProMove(dx,dy);return end;collect(root);if not selected then return end
@@ -195,7 +243,7 @@ local function wheelTick()
  local w=GamepadRadial
  if not visible(w)then
   overlay:Hide()
-  if armed and w and not w.isCancelled then if waitOpen then armed=nil;waitOpen=nil;if NightProWorkbench then NightProWorkbench:Open()else panel:Show()end else waitOpen=true end else armed=nil end
+  if armed and w and not w.isCancelled then if waitOpen then armed=nil;waitOpen=nil;if NightProWorkbench then NightProWorkbench:Open()else showMenu()end else waitOpen=true end else armed=nil end
   lastIndex=nil;return
  end
  local page=w.mainMenuPages and w.mainMenuPages[3]
@@ -227,5 +275,5 @@ driver:SetScript('OnUpdate',function(_,dt)
  elseif root then if not active then collect(root);bind()end end
 end)
 driver:RegisterEvent('PLAYER_REGEN_DISABLED');driver:RegisterEvent('PLAYER_REGEN_ENABLED');driver:SetScript('OnEvent',function()release();root=nil end)
-SLASH_NIGHTPROMENU1='/npmenu';SlashCmdList.NIGHTPROMENU=function()if not InCombatLockdown()then panel:SetShown(not panel:IsShown())end end
+SLASH_NIGHTPROMENU1='/npmenu';SlashCmdList.NIGHTPROMENU=function()if not InCombatLockdown()then if panel:IsShown()then panel:Hide()else showMenu()end end end
 NightProControllerReady=true

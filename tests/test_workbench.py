@@ -57,6 +57,7 @@ end
 ''')
 root = Path(__file__).resolve().parents[1]
 source = (root / 'AddOns/NightProAdventureHub/NightProWorkbench.lua').read_text()
+lua.execute((root/'AddOns/NightProController/NightProDependencies.lua').read_text())
 lua.execute(source)
 lua.execute(r'''
 local w=NightProWorkbench
@@ -81,11 +82,11 @@ pressLabel('Role: Affliction');assert(calls.spec=='demonology')
 pressLabel('Usable now');assert(calls.range[1]==12 and calls.range[2]==21)
 pressLabel('1. Apprentice Hood');assert(textHas('View loot source'))
 pressLabel('View loot source');assert(textHas('Test Dungeon > Test Boss'));assert(textHas('Cached item 123'))
-w:Back();assert(textHas('Test Boss'));w:Back();assert(textHas('Bosses & loot') and textHas('Dungeon quests'))
+w:Back();assert(textHas('View loot source'),'Source Back returns to the selected gear');w:Open('dungeons');pressLabel('Test Dungeon');assert(textHas('Bosses & loot') and textHas('Dungeon quests'))
 pressLabel('Dungeon quests');assert(textHas('Dungeon Quest'));w:Back();w:Back();w:Back();assert(textHas('Four tools, one hub.'))
 w:Open('quests');assert(textHas('A real quest'));assert(not textHas('Enemies defeated: 2/5'),'Details must not crowd the list')
 assert(textHas('Complete - ready to turn in'));pressLabel('A real quest');assert(textHas('Enemies defeated: 2/5'))
-pressLabel('Open quest map');assert(calls.quest==42 and not w.frame:IsShown())
+pressLabel('Full quest guide');assert(textHas('PICK UP FROM') and w.frame:IsShown());w:Back();assert(textHas('Enemies defeated: 2/5'))
 w:Open('auctions');assert(textHas('Saved low: 1g 0s 0c'))
 pressLabel('Cached item 123');pressLabel('Live listings');assert(calls.buy==0 and textHas('Visit an auctioneer'))
 w:Back();pressLabel('Scan at auctioneer');assert(calls.scan==0 and textHas('Visit an auctioneer before scanning'))
@@ -95,7 +96,7 @@ combat=false
 NightProGearData.Rank=function()error('Bad upstream data')end
 w:Open('gear');assert(textHas('This page could not load'));assert(#NightProKitDiagnostics==1)
 w:Back();assert(textHas('Four tools, one hub.'));w:Back();assert(not w.frame:IsShown())
-NightProDungeonData=nil;w:Open('dungeons');assert(textHas('data bridge is missing'))
+NightProDungeonData=nil;w:Open('dungeons');assert(textHas('NeedRoll - STATUS UNAVAILABLE'))
 -- Short filter rows must never strand focus on an invisible control.
 w:Open('quests');w:Move(0,1);w:Move(1,0);w:Move(0,-1);w:Activate();assert(textHas('Enemies defeated: 2/5'))
 -- Long descriptions are paged instead of clipped.

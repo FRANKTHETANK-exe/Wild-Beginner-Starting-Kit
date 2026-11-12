@@ -33,6 +33,7 @@ function RegisterStateDriver()end
 C_AddOns={IsAddOnLoaded=function(name)return name=='GearedForever' end}
 function methods:Click(btn) if self.scripts.OnClick then self.scripts.OnClick(self,btn)end end
 for _,n in ipairs({'SetBackdrop','SetBackdropBorderColor','SetBackdropColor','SetFrameStrata','SetSize','SetPoint','SetText','SetTextColor','SetAllPoints','SetTexture','RegisterForClicks','RegisterEvent','ClearAllPoints','EnableMouse','SetClampedToScreen','SetWidth','SetJustifyH','SetSpacing','SetScale','SetFrameLevel','SetHeight','EnableMouseWheel'})do methods[n]=function()end end
+function methods:SetText(value)self.value=value end
 function CreateFrame(kind,name,parent,template)
  local f=setmetatable({kind=kind,name=name,parent=parent,children={},scripts={},shown=true}, {__index=methods})
  if parent then table.insert(parent.children,f)end
@@ -51,6 +52,7 @@ GamepadRadial=setmetatable({}, {__index={IsVisible=function()return false end},_
 ''')
 source=(Path(__file__).resolve().parents[1] / 'AddOns/NightProController/NightProController.lua').read_text(encoding='utf-8-sig')
 lua.execute('function NightProCreateEmblem()end')
+lua.execute((Path(__file__).resolve().parents[1]/'AddOns/NightProController/NightProDependencies.lua').read_text())
 lua.execute(source)
 lua.execute(r'''
 local driver=frames[#frames]

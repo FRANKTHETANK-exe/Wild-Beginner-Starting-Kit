@@ -2,11 +2,11 @@
 
 This kit would not exist without the people who built the addons below. NightPro is the shared pages, packaging and navigation adapter. It is not a replacement author credit for their work.
 
-| Project | Original authors | What the kit uses | License |
+| Project | Original authors | What the kit uses | Pinned archive license |
 | --- | --- | --- | --- |
 | [BagPad](https://www.curseforge.com/wow/addons/bagpad-forever) | Chris / TheFerdinandGamer | Native controller bags, item actions, bank and inventory snapshots, the dark-and-gold visual style | MIT |
-| [Improved Forever](https://github.com/markgravity/ImprovedForever) | markg / markgravity | Controller settings and bindings | MIT |
-| [Improved Forever Auction](https://github.com/markgravity/ImprovedForever) | markg / markgravity | Controller auction interface | MIT |
+| [Improved Forever](https://www.curseforge.com/wow/addons/improved-forever) | markg / markgravity | Controller settings and bindings | MIT |
+| [Improved Forever Auction](https://www.curseforge.com/wow/addons/improved-forever-auction) | markg / markgravity | Controller auction interface | MIT |
 | [Easy Controller - Forever](https://github.com/moust4ki/EasyControllerWowForever) | moust4ki | Work credited by Improved Forever in its configuration, wheel editor and vibration features | MIT |
 | [GearedForever](https://www.curseforge.com/wow/addons/gearedforever) | Nathan / fistedwaffles05 | Gear browser and upgrade information | GPLv3 |
 | [NeedRoll](https://www.curseforge.com/wow/addons/needroll) | mikebvs; published by flowmotion_x | Dungeons, loot, quests and related data | GPLv3 |
@@ -33,8 +33,18 @@ Native bag controls come from BagPad. Quest controller controls come from Questi
 
 The source in `AddOns/NightProController` and `AddOns/NightProAdventureHub` is GPL-3.0-only. Its wheel integration follows the design of Questie Forever Gamepad's `RadialMenu.lua`; that relationship is retained in the source notice.
 
-Upstream addon code is not included in this repository or the kit ZIP. The installer downloads original releases directly from GitHub or CurseForge's distribution CDN and verifies the pinned hashes. Each addon keeps its own license, authors, libraries and artwork. The GPL license in this repository applies to the NightPro companion, not to every dependency.
+Upstream addon code is not included in this repository or the kit ZIP. Required Dependency relationships direct a supported CurseForge client to the authors' own projects. The local setup script downloads nothing; it connects separately installed originals after verifying exact source-file hashes. Each addon keeps its own license, authors, libraries and artwork. The GPL license in this repository applies to the NightPro companion, not to every dependency.
 
 World of Warcraft and its game assets belong to Blizzard Entertainment. This is a community addon pack and is not an official Blizzard product.
 
 The Adventure Hub badge uses the Alliance and Horde faction textures already provided by the WoW client. Those emblems belong to Blizzard Entertainment. No game artwork is bundled in this repository.
+
+## License evidence and local connections
+
+BagPad 1.4.0 contains Chris's MIT license. NeedRoll 1.4.1 and 1.6.0 contain GPLv3 license text; their current CurseForge project page displayed All Rights Reserved when checked on November 11, 2026, as did BagPad's page. Archive notices and current page labels are recorded separately. Verify the author's terms for the exact release; these credits do not grant permission for another version or asset.
+
+The local bridges change three local source files and are disclosed as such. Original files, copyright headers, licenses, data and algorithms are preserved. Exact restoration and per-run backups are provided. Installing through official projects preserves author attribution and the normal distribution path; this kit does not promise a particular download-count or rewards outcome controlled by CurseForge.
+
+## Hub map views
+
+The 1.5.2 Hub reads dungeon floors, boss positions, quest entries and entrance data from the installed NeedRoll addon. Quest locations come from the installed Questie database and ZoneDB. Map textures are supplied by the WoW client or referenced by the original addon. Original per-map artist credits are displayed when present. These datasets and textures are not copied into the kit.
