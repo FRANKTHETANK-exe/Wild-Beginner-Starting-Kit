@@ -4,15 +4,17 @@
 
 ## Easiest way
 
-1. **Install the kit in CurseForge.** Choose your Forever game folder. Allow the required addons to install too. They belong to the original authors. If you do not see the latest file, check the project's Files tab and its Beta option.
-2. **Close WoW.** Open your game's `_forever_` folder, then `Interface`, `AddOns`, and `NightProController`.
-3. **Connect the addons.** Right-click an empty space in that folder and open a PowerShell terminal. Paste this, then press Enter:
+**1. Install the kit in CurseForge.** Choose your Forever game folder. Allow the required addons to install too. They belong to the original authors. If you do not see the latest file, check the project's Files tab and its Beta option.
+
+**2. Close WoW.** Open your game's `_forever_` folder, then `Interface`, `AddOns`, and `NightProController`.
+
+**3. Connect the addons.** Right-click an empty space in that folder and open a PowerShell terminal. Paste this, then press Enter:
 
 ```powershell
 .\Install.ps1 -AddonPath (Split-Path -Parent $PWD.Path)
 ```
 
-4. **Open WoW through Battle.net.** At character selection, click **AddOns** and enable both NightPro addons and the required originals. Enter the game and type **`/adventurehub`**.
+**4. Open WoW through Battle.net.** At character selection, click **AddOns** and enable both NightPro addons and the required originals. Enter the game and type **`/adventurehub`**.
 
 That's the main menu: **Find Gear, My Quests, Dungeons & Loot, and Auction Prices.** For bags, use **Bags** on your normal controller wheel. For controls, setup help or credits, type **`/npmenu`**.
 
