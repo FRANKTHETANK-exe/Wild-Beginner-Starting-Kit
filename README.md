@@ -10,9 +10,9 @@ This is the same Wild Beginner Starting Kit project, with a shorter name. Your e
 
 ## Current update
 
-**1.5.2 Beta** adds D-pad page changes, connected gear/quest/dungeon paths, in-Hub maps and better quest-picture framing. The page controls and return navigation were tested in WoW on Windows and confirmed with a physical controller. This is a Beta; broader dungeon and addon-version coverage is still being checked.
+**1.5.3 Beta** makes setup easier: a short Start Here page, separate Setup Help, and an optional copyable AI setup prompt. The existing gear, quest, dungeon, bag and bank pages stay the same. The new menus were checked in WoW on Windows; installer, recovery and offline navigation checks passed.
 
-[Download the 1.5.2 Beta ZIP](releases/Wild-Beginner-Starting-Kit-1.5.2-beta.zip) · [CurseForge listing](https://www.curseforge.com/wow/addons/wild-beginner-starting-kit) · [Changes](CHANGELOG.md)
+[Download the 1.5.3 Beta ZIP](releases/Wild-Beginner-Starting-Kit-1.5.3-beta.zip) · [CurseForge listing](https://www.curseforge.com/wow/addons/wild-beginner-starting-kit) · [Changes](CHANGELOG.md)
 
 ## What's inside
 
@@ -27,31 +27,23 @@ The Hub has one shared layout, a visible Back button and readable pages. Its cen
 
 ## Install in four steps
 
-**1. Install the kit and the original addons.**
-
-In the CurseForge app, choose your **Forever** game installation, then install this kit. Use its current Beta file if your app is set to Releases only. The Beta's required dependencies point to the authors' own projects. Check that all eight required addons are installed in the same game folder. Platynator is optional.
-
-Downloaded the ZIP manually? Extract **NightProController** and **NightProAdventureHub** into `_forever_\Interface\AddOns`, then install the eight originals from the links below. A ZIP cannot download them for you.
-
-**2. Close WoW and connect the addons once.**
-
-Open `_forever_\Interface\AddOns\NightProController` in File Explorer. Open PowerShell in that folder, then paste:
+1. **Install this kit in CurseForge** for your Forever game installation. Let it install the required original addons too. If needed, choose the current Beta from the Files tab.
+2. **Close WoW.** Open `_forever_ > Interface > AddOns > NightProController` in File Explorer. Open a PowerShell terminal in that folder.
+3. **Paste this and press Enter:**
 
 ```powershell
 .\Install.ps1 -AddonPath (Split-Path -Parent $PWD.Path)
 ```
 
-This connects the supported original versions to the Hub and saves backups first. It downloads nothing. CurseForge does **not** run this step automatically. If setup reports an unsupported version or Windows blocks the script, stop and use the setup help below.
+4. **Launch WoW through Battle.net.** Enable the addons at character selection, enter the game and type **`/adventurehub`**.
 
-**3. Launch WoW through Battle.net.**
+**The connection step is required.** CurseForge cannot run it for you. Setup saves backups and keeps your settings. If it reports an unsupported version or Windows blocks it, stop and keep the message for help.
 
-At character selection, enable both NightPro addons and the required originals in **AddOns**.
+Downloaded a ZIP? Put both NightPro folders in `Interface\AddOns`, install the eight originals linked below, then follow steps 2â€“4. A ZIP does not fetch the originals.
 
-**4. Open Adventure Hub.**
+**Want AI help?** Copy [this setup prompt](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/AI-SETUP.txt) into your assistant. It can guide you one step at a time, or help install if you give it computer access. AI is optional. In the updated menu, **Set Up with AI** opens a copyable prompt; the addon itself never sends data to an AI service.
 
-Click the split Alliance/Horde emblem by the minimap, or use the **Adventure Hub** shortcut on controller wheel page 3 if a slot is free. You can also type `/adventurehub`.
-
-Start with **Find Gear**, **My Quests**, **Dungeons & Loot** or **Auction Prices**. `/npmenu` opens the kit's **Start Here**, bag settings, controls and credits.
+[Simple install guide](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/INSTALL.md) Â· [Setup troubleshooting](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/SETUP-DETAILS.md)
 
 ## Controls and quick fixes
 
@@ -85,17 +77,17 @@ Screenshots from the 1.5.2 Beta, with the pointer moved away from the menus. Cro
 
 Install these **eight required originals** through their own projects:
 
-- [BagPad](https://www.curseforge.com/wow/addons/bagpad-forever) — **Chris / TheFerdinandGamer**: controller bags, bank and inventory.
-- [GearedForever](https://www.curseforge.com/wow/addons/gearedforever) — **Nathan / fistedwaffles05**: gear information and rankings.
-- [NeedRoll](https://www.curseforge.com/wow/addons/needroll) — **mikebvs / flowmotion_x**: dungeon maps, loot and quest information.
-- [Questie](https://www.curseforge.com/wow/addons/questie) — **the Questie contributors**: quest information, maps and tracking.
-- [QuestieDB](https://www.curseforge.com/wow/addons/questiedb) — **Logonz and the Questie contributors**: quest database.
-- [Questie Forever Gamepad](https://www.curseforge.com/wow/addons/questie-forever-gamepad) — **Tombons97 and contributors**: controller quest support, tracker, arrow and picture helpers.
-- [Improved Forever](https://www.curseforge.com/wow/addons/improved-forever) — **markg / markgravity**: controller settings and bindings.
-- [Improved Forever Auction](https://www.curseforge.com/wow/addons/improved-forever-auction) — **markg / markgravity**: auction controls and price information.
+- [BagPad](https://www.curseforge.com/wow/addons/bagpad-forever) â€” **Chris / TheFerdinandGamer**: controller bags, bank and inventory.
+- [GearedForever](https://www.curseforge.com/wow/addons/gearedforever) â€” **Nathan / fistedwaffles05**: gear information and rankings.
+- [NeedRoll](https://www.curseforge.com/wow/addons/needroll) â€” **mikebvs / flowmotion_x**: dungeon maps, loot and quest information.
+- [Questie](https://www.curseforge.com/wow/addons/questie) â€” **the Questie contributors**: quest information, maps and tracking.
+- [QuestieDB](https://www.curseforge.com/wow/addons/questiedb) â€” **Logonz and the Questie contributors**: quest database.
+- [Questie Forever Gamepad](https://www.curseforge.com/wow/addons/questie-forever-gamepad) â€” **Tombons97 and contributors**: controller quest support, tracker, arrow and picture helpers.
+- [Improved Forever](https://www.curseforge.com/wow/addons/improved-forever) â€” **markg / markgravity**: controller settings and bindings.
+- [Improved Forever Auction](https://www.curseforge.com/wow/addons/improved-forever-auction) â€” **markg / markgravity**: auction controls and price information.
 
 [Platynator](https://www.curseforge.com/wow/addons/platynator) by **plusmouse** is optional. Thanks also to **moust4ki**, whose [Easy Controller](https://github.com/moust4ki/EasyControllerWowForever) work is credited by Improved Forever, and **xeR**, whose Forever Quality of Life Settings is the visual reference credited by BagPad. Individual map-art credits are preserved where supplied.
 
 **I built the shared Hub, navigation adapter and setup around their work. I did not create or rename their addons.** The kit does not bundle their source or databases. Required dependencies keep downloads on the original authors' projects. Each project keeps its own name, license and credit. World of Warcraft and its game assets belong to Blizzard Entertainment.
 
-[Detailed Windows setup and recovery](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/INSTALL.md) · [Full author and license credits](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/CREDITS.md) · [Supported versions](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/DEPENDENCIES.md) · [Report a problem](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/issues)
+[Detailed Windows setup and recovery](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/INSTALL.md) Â· [Full author and license credits](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/CREDITS.md) Â· [Supported versions](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/blob/main/DEPENDENCIES.md) Â· [Report a problem](https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit/issues)

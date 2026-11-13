@@ -1,3 +1,10 @@
+# 1.5.3 - Simple setup
+
+- Short Start Here page, with separate Setup Help and Set Up with AI buttons.
+- Copyable AI setup prompt in the game and the download. AI remains optional.
+- Four-step installation guide; advanced setup and recovery kept separately.
+- Existing Hub pages, controller behavior, original authors and dependencies preserved.
+
 # 1.5.2 Beta: connected guides and controller page changes
 
 - D-pad left/right changes list and detail pages, and map floors/zones. Back restores the gear item, quest or map floor that opened the next page.

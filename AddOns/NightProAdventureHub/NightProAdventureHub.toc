@@ -2,7 +2,7 @@
 ## Title: NightPro Adventure Hub
 ## Notes: Gear, quests, dungeon loot and auction prices in one controller-friendly hub.
 ## Author: NightPro
-## Version: 1.5.2
+## Version: 1.5.3
 ## X-License: GPL-3.0-only
 ## RequiredDeps: NightProController
 ## OptionalDeps: GearedForever, NeedRoll, Questie, QuestieDB, QuestieForeverGamepad, ImprovedForever_Auction

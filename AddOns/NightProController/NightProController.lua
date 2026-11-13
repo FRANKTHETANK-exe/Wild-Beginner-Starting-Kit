@@ -27,6 +27,7 @@ panel:SetBackdropColor(.035,.035,.045,.98);panel:SetBackdropBorderColor(.65,.55,
 panel:Hide();tinsert(UISpecialFrames,'NightProAddonMenu')
 local function showMenu()
  if InCombatLockdown()then return end
+ if NightProSetupPromptFrame then NightProSetupPromptFrame:Hide()end
  if NightProWorkbenchFrame then NightProWorkbenchFrame:Hide()end
  if NightProSettingsFrame then NightProSettingsFrame:Hide()end
  panel:Show()
@@ -48,7 +49,7 @@ detailTitle:SetTextColor(1,.82,0)
 local detailBody=text(detail,'GameFontHighlight',18,-57,536,'Choose a tool above.')
 detailBody:SetSpacing(4);detailBody:SetHeight(215)
 local status=text(detail,'GameFontNormal',18,-293,536,'')
-local footer=text(panel,'GameFontHighlight',24,-860,572,'D-pad: choose   A: open   B: close   LB / RB: read more')
+local footer=text(panel,'GameFontHighlight',24,-881,572,'D-pad: choose   A: open   B: back   LB/RB: help pages')
 footer:SetTextColor(.85,.80,.68)
 local function loaded(name)
  local fn=C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
@@ -62,7 +63,7 @@ end
 local function controls()
  if NightProSettings then NightProSettings:Open() end
 end
-local firstSteps='1. Open Adventure Hub from wheel page 3 or the blue/red minimap emblem. /adventurehub opens it too. This kit menu is /npmenu.\n\n2. Bags still opens the native controller bag. Use its own button prompts to equip, move or destroy items.\n\n3. Visit your bank once to save its contents. Snapshots show the last visit; they cannot move remote items.\n\n4. Open Adventure Hub. Find Gear, My Quests, Dungeons & Loot and Auction Prices are sections inside it.\n\n5. Auction buying and selling still needs an auctioneer.\n\nB backs out of this menu and supported tool windows. Combat keeps control of your game buttons.'
+local firstSteps='START PLAYING\n\nOpen Adventure Hub: gear, quests, dungeons and prices in one window.\n\nOpen Bags from your normal controller wheel. Visit your bank once to save its contents.\n\nD-pad chooses. A opens. B goes back. Left/right changes Hub pages.\n\nNeed to install or fix something? Choose Setup Help below. Want an AI assistant to walk you through setup? Choose Set Up with AI.'
 local credits='BagPad: Chris / TheFerdinandGamer (MIT).\n\nImproved Forever and Auction: markg / markgravity (MIT). Includes work from moust4ki\'s Easy Controller (MIT).\n\nGearedForever: Nathan / fistedwaffles05 (GPLv3).\n\nNeedRoll: mikebvs / flowmotion_x (GPLv3).\n\nQuestie Forever Gamepad: Tombons97 and contributors (GPLv3). Questie and QuestieDB: their contributors. Questie provides quest data, map pins and tracking; Questie Forever Gamepad provides objective pictures and model framing.\n\nBagPad\'s style cites xeR\'s Forever Quality of Life Settings.\n\nNightPro: this shared menu, branding and navigation adapter. Original addon code and authorship stay with their creators.'
 local choices={
  {'Start Here',nil,firstSteps},
@@ -77,7 +78,7 @@ local choices={
 }
 local dependency=NightProDependencies
 if dependency then
- choices[1].dependencies=dependency.names
+ -- Start Here stays a short welcome; setup issues have their own button.
  choices[4].dependencies={'GearedForever','NeedRoll','Questie','QuestieDB','QuestieForeverGamepad','ImprovedForever','ImprovedForever_Auction'}
  choices[6].dependencies={'ImprovedForever','QuestieForeverGamepad'}
 end
@@ -145,6 +146,22 @@ for i,choice in ipairs(choices) do
   if choice[4] then panel:Hide();C_Timer.After(0,choice[4]) end
  end)
 end
+local function helpButton(name,label,x,action,description)
+ local b=CreateFrame('Button',name,panel,'BackdropTemplate')
+ b:SetSize(280,34);b:SetPoint('TOPLEFT',x,-842)
+ b:SetBackdrop({bgFile='Interface\\Buttons\\WHITE8x8',edgeFile='Interface\\Buttons\\WHITE8x8',edgeSize=1})
+ b:SetBackdropColor(.10,.10,.13,1);b:SetBackdropBorderColor(.65,.55,.30,.9)
+ text(b,'GameFontHighlight',12,-8,254,label)
+ b:SetScript('OnEnter',function()describe({label,nil,description})end)
+ b:SetScript('OnClick',function()if not InCombatLockdown()then action()end end)
+ return b
+end
+helpButton('NightProSetupHelp','Setup Help',24,function()
+ if dependency then dependency:Open()end
+end,'Something missing? Open Setup Help to see which original addon needs attention and its official download link.\n\nLB/RB or the mouse wheel changes help pages.\n\nFor the short installation guide, open INSTALL.md in your NightProController folder.')
+helpButton('NightProAIHelp','Set Up with AI',316,function()
+ if NightProSetup then panel:Hide();NightProSetup:Open()end
+end,'Copy a ready-made prompt into your AI assistant. It can guide you through installation.\n\nAI is optional. This addon does not send your data to an AI service.\n\nThe same prompt is in AI-SETUP.txt in your NightProController folder.')
 panel:SetScript('OnShow',function()
  local width,height=UIParent:GetWidth(),UIParent:GetHeight()
  panel:SetScale(math.min(1,width*.29/620,height*.60/900));panel:ClearAllPoints();panel:SetPoint('CENTER',UIParent,'CENTER',0,0)
@@ -222,7 +239,7 @@ local function bind()
  own:Execute('self:ClearBindings()')
  for key,name in pairs(targets)do own:Execute(('self:SetBindingClick(true, %q, %q, "LeftButton")'):format(key,name))end;active=true
 end
-local rootNames={'NightProSettingsFrame','NightProWorkbenchFrame','NightProAddonMenu','GearedForeverFrame','NeedRollFrame','NeedRollNativeFrame','NeedRollDarkFrame','NeedRollElvUIFrame'}
+local rootNames={'NightProSetupPromptFrame','NightProSettingsFrame','NightProWorkbenchFrame','NightProAddonMenu','GearedForeverFrame','NeedRollFrame','NeedRollNativeFrame','NeedRollDarkFrame','NeedRollElvUIFrame'}
 local function currentRoot()
  if visible(panel) then return panel end
  local best

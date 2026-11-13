@@ -1,0 +1,14 @@
+Help me install Wild Starting Kit for World of Warcraft Forever on Windows.
+
+Project: https://www.curseforge.com/wow/addons/wild-beginner-starting-kit
+Source and setup: https://github.com/FRANKTHETANK-exe/Wild-Beginner-Starting-Kit
+
+First read the current README.md, INSTALL.md and curseforge-dependencies.json. Find my actual _forever_/Interface/AddOns folder; ask if there is more than one. This kit is for Forever interface 16001, not Retail or Classic.
+
+Install the kit and its eight required original addons from their official CurseForge projects into the same game installation. Keep their original names, credits and licenses. Platynator is optional. A manual ZIP does not fetch dependencies. Never use a random download mirror.
+
+Before changing files, make sure WoW is closed and preserve existing addons, bindings and WTF settings. Do not close a running game without asking. Inspect the included Install.ps1. Run it first with -AddonPath pointing to the verified folder and -Preview. If the preview passes, run that same command without -Preview. It connects supported originals and saves backups; it does not download them. Do not bypass unsupported-version checks, turn off security, change execution policy, delete my settings or downgrade an original addon to force setup.
+
+If a dependency is missing or a version is unsupported, explain exactly which one and stop that step. After setup, launch WoW through Battle.net, enable both NightPro addons and their required originals, and help me open /adventurehub. Check Find Gear, My Quests, Dungeons & Loot and Auction Prices. Use /npdeps for any missing tool. Ask whether I prefer controller or keyboard and mouse, and help me choose that in NightPro Controls. Do not automate gameplay, purchases or account sign-in.
+
+If you cannot control my computer, guide me one short step at a time. Never claim something is installed or tested unless you checked it. End with what works, anything still missing and where the setup backup was saved.
